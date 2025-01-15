@@ -1,0 +1,680 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1" theme-name="Stellar" theme-version="1.29.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>Cobalt Strike主动识别方案 - 博客</title>
+
+  
+    <meta name="description" content="最近在编写针对红队基础设施扫描的时候，研究针对红队C2识别一些方案特征，这里我们以Cobalt Strike作为特征举例。  0.1 思路众所周知，Cobalt Strike端口可以分为监听端口和Team Server连接端口。 监听端口：Cobalt Strike的Listeners。 连接端口：从客户端连接服务端的端口，由Team Server启动。 由于在攻防中，常见的Cobalt Stri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cobalt Strike主动识别方案">
+<meta property="og:url" content="http://example.com/posts/58642.html">
+<meta property="og:site_name" content="博客">
+<meta property="og:description" content="最近在编写针对红队基础设施扫描的时候，研究针对红队C2识别一些方案特征，这里我们以Cobalt Strike作为特征举例。  0.1 思路众所周知，Cobalt Strike端口可以分为监听端口和Team Server连接端口。 监听端口：Cobalt Strike的Listeners。 连接端口：从客户端连接服务端的端口，由Team Server启动。 由于在攻防中，常见的Cobalt Stri">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250114112144146.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115153543076.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115161408010.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115153952058.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115154022000.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115160407422.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115160422655.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115163738664.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115164153730.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115164253312.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115164341464.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115164547179.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115164638158.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115164732525.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115165427049.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115174557745.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115174622901.png">
+<meta property="article:published_time" content="2025-01-14T03:09:22.000Z">
+<meta property="article:modified_time" content="2025-01-15T09:48:21.428Z">
+<meta property="article:author" content="弱鸡">
+<meta property="article:tag" content="C2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250114112144146.png">
+  
+  
+  
+  <meta name="keywords" content="C2">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.29.1">
+
+  
+
+  
+
+  
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/tx.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">博客</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/58642.html"><span class="title">Cobalt Strike主动识别方案</span></a><a class="item title" href="/posts/15280.html"><span class="title">测绘语法收集资产</span></a><a class="item title" href="/posts/24712.html"><span class="title">关于快速打点思考</span></a><a class="item title" href="/posts/16108.html"><span class="title">Hello World</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/C2/">C2</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-14T03:09:22.000Z">2025-01-14</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-01-15T09:48:21.428Z">2025-01-15</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>Cobalt Strike主动识别方案</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><p>最近在编写针对红队基础设施扫描的时候，研究针对红队C2识别一些方案特征，这里我们以<code>Cobalt Strike</code>作为特征举例。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250114112144146.png" alt="image-20250114112144146"></p>
+<h1 id="0-1-思路"><a href="#0-1-思路" class="headerlink" title="0.1 思路"></a>0.1 思路</h1><p>众所周知，<code>Cobalt Strike</code>端口可以分为监听端口和<code>Team Server</code>连接端口。</p>
+<p>监听端口：<code>Cobalt Strike</code>的Listeners。</p>
+<p>连接端口：从客户端连接服务端的端口，由<code>Team Server</code>启动。</p>
+<p>由于在攻防中，常见的<code>Cobalt Strike</code>监听端口是HTTP&#x2F;HTTPS，所有这里我们主要去研究<code>HTTP/S</code>和<code>Team Server</code>端口特征方法。</p>
+<p>配置【Cobalt Strike 4.7】：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115153543076.png" alt="image-20250115153543076"></p>
+<h1 id="0-2-HTTP-S-监听端口"><a href="#0-2-HTTP-S-监听端口" class="headerlink" title="0.2 HTTP&#x2F;S 监听端口"></a>0.2 HTTP&#x2F;S 监听端口</h1><h2 id="特征一-JARM【弱特征】"><a href="#特征一-JARM【弱特征】" class="headerlink" title="特征一  JARM【弱特征】"></a>特征一  JARM【弱特征】</h2><p>JARM 是一种用于识别和分类 TLS（传输层安全）服务器的指纹识别工具。它通过向目标服务器发送特定构造的 TLS Client Hello 数据包，分析服务器返回的 Server Hello 响应，提取特定属性，生成独特的指纹。这些指纹可用于：</p>
+<ul>
+<li><strong>验证服务器组的 TLS 配置一致性</strong>：快速检查一组服务器是否具有相同的 TLS 配置。</li>
+<li><strong>服务器分组</strong>：根据 TLS 配置，将互联网上的服务器进行分组，例如，识别可能属于特定组织（如 Google、Salesforce、Apple）的服务器。</li>
+<li><strong>应用程序或基础设施识别</strong>：识别默认的应用程序或基础设施。</li>
+<li><strong>恶意服务器检测</strong>：识别互联网上的恶意软件命令和控制基础设施以及其他恶意服务器。</li>
+</ul>
+<p>JARM 的工作原理包括：</p>
+<ol>
+<li><strong>发送特定的 TLS Client Hello 数据包</strong>：主动向目标 TLS 服务器发送 10 个特定构造的 Client Hello 数据包。</li>
+<li><strong>捕获服务器响应</strong>：记录服务器返回的 Server Hello 响应，提取其中的特定属性。</li>
+<li><strong>生成指纹</strong>：对收集的服务器响应进行处理，生成一个 62 字符的指纹，其中前 30 个字符表示服务器对每个 Client Hello 的密码套件和 TLS 版本选择，后 32 个字符是服务器发送的累积扩展名的截断 SHA256 哈希。</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://github.com/projectdiscovery/tlsx">projectdiscovery&#x2F;tlsx: Fast and configurable TLS grabber focused on TLS based data collection.</a></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115161408010.png" alt="image-20250115161408010"></p>
+<p><strong>特征</strong>：<code>2ad2ad16d2ad2ad00042d42d00042ddb04deffa1705e2edc44cae1ed24a4da</code>，但是由于可以自己生成SSL证书，所有JARM只能算是弱特征。</p>
+<h2 id="特征二-响应头【弱特征】"><a href="#特征二-响应头【弱特征】" class="headerlink" title="特征二 响应头【弱特征】"></a>特征二 响应头【弱特征】</h2><p>默认访问</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115153952058.png" alt="image-20250115153952058"></p>
+<p>当我们使用<code>OPTIONS</code>去请求就会出现<code>Allow: OPTIONS,GET,HEAD,POST</code>。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115154022000.png" alt="image-20250115154022000"></p>
+<p><strong>特征</strong>：发送<code>OPTIONS</code>得到<code>Allow: OPTIONS,GET,HEAD,POST</code>。</p>
+<h2 id="特征三-checksum8算法【强特征】"><a href="#特征三-checksum8算法【强特征】" class="headerlink" title="特征三 checksum8算法【强特征】"></a>特征三 <code>checksum8</code>算法【强特征】</h2><p>Cobalt Strike 中的 <code>checksum8</code>。在 Cobalt Strike 中，<code>checksum8 </code>是一种用于确定请求 URI 的算法。当用户向 <code>Team Server</code> 发送 HTTP 请求时，服务器会将请求的 URI 传递给 checksum8 函数，并将结果与整数值 92L 或 93L 进行比较。如果结果匹配，服务器将返回相应的 Beacon 二进制负载。具体而言，checksum8 用于区分 32 位和 64 位的 Beacon 负载。</p>
+<p>以下是 <code>checksum8</code>函数的 Java 实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> <span class="title function_">checksum8</span><span class="params">(String text)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (text.length() &lt; <span class="number">4</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0L</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    text = text.replace(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">    <span class="type">long</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0L</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">0</span>; x &lt; text.length(); x++) &#123;</span><br><span class="line">        sum += text.charAt(x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum % <span class="number">256L</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也就是说<code>checksum8</code>实现之后的URL是固定的不是随机的，下面我们通过python代码实现这个算法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> product</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line"></span><br><span class="line">warnings.filterwarnings(<span class="string">&quot;ignore&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">checksum8</span>(<span class="params">uri</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    计算 URI 的 checksum8 值。</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(uri) &lt; <span class="number">4</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    uri = uri.replace(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">    total = <span class="built_in">sum</span>(<span class="built_in">ord</span>(char) <span class="keyword">for</span> char <span class="keyword">in</span> uri)</span><br><span class="line">    <span class="keyword">return</span> total % <span class="number">256</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">generate_uris</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    生成满足 checksum8 为 92（32 位）和 93（64 位）的 URI 列表。</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    chars = string.ascii_letters + string.digits</span><br><span class="line">    <span class="keyword">for</span> combo <span class="keyword">in</span> product(chars, repeat=<span class="number">4</span>):</span><br><span class="line">        uri = <span class="string">&#x27;&#x27;</span>.join(combo)</span><br><span class="line">        cs8 = checksum8(uri)</span><br><span class="line">        <span class="keyword">if</span> cs8 == <span class="number">92</span>:</span><br><span class="line">            <span class="keyword">yield</span> uri, <span class="string">&#x27;32-bit&#x27;</span></span><br><span class="line">        <span class="keyword">elif</span> cs8 == <span class="number">93</span>:</span><br><span class="line">            <span class="keyword">yield</span> uri, <span class="string">&#x27;64-bit&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check_cs_server</span>(<span class="params">base_url</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    检查目标服务器是否为 Cobalt Strike 服务器。</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> uri, arch <span class="keyword">in</span> generate_uris():</span><br><span class="line">        url = <span class="string">f&quot;<span class="subst">&#123;base_url&#125;</span>/<span class="subst">&#123;uri&#125;</span>&quot;</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            response = requests.get(url, headers=headers, verify=<span class="literal">False</span>, timeout=<span class="number">5</span>)</span><br><span class="line">            <span class="keyword">if</span> response.status_code == <span class="number">200</span> <span class="keyword">and</span> response.headers.get(<span class="string">&#x27;Content-Type&#x27;</span>) == <span class="string">&#x27;application/octet-stream&#x27;</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">f&quot;可能的 Cobalt Strike 服务器，架构：<span class="subst">&#123;arch&#125;</span>，URI：<span class="subst">&#123;url&#125;</span>&quot;</span>)</span><br><span class="line">                <span class="comment"># return</span></span><br><span class="line">        <span class="keyword">except</span> requests.RequestException <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;请求 <span class="subst">&#123;url&#125;</span> 时出错：<span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;未检测到 Cobalt Strike 服务器。&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    target_url = <span class="string">&quot;https://192.168.65.170:3344&quot;</span></span><br><span class="line">    check_cs_server(target_url)</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115160407422.png" alt="image-20250115160407422"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115160422655.png" alt="image-20250115160422655"></p>
+<p><strong>特征</strong>：发送<code>/aaa9</code>如果HTTP&#x2F;S是<code>Cobalt Strike</code>，会返回<code>Content-Type: application/octet-stream</code>，而且会返回响应体，其中我们可以判断<code>Content-Type: application/octet-stream</code>以及是否存在响应体，以及响应体长度是否大于<code>2000</code>。</p>
+<h1 id="0-3-Team-Server-连接端口"><a href="#0-3-Team-Server-连接端口" class="headerlink" title="0.3 Team Server 连接端口"></a>0.3 Team Server 连接端口</h1><h2 id="特征一-JARM【弱特征】-1"><a href="#特征一-JARM【弱特征】-1" class="headerlink" title="特征一  JARM【弱特征】"></a>特征一  JARM【弱特征】</h2><p><code>Team Server</code>用于Cobalt Strike客户端连接到服务器的端口，其中<code>Team Server</code>也使用到了SSL，所有我们可以使用在上文中的JARM去检测。</p>
+<h2 id="特征二-TCP流量【强特征】"><a href="#特征二-TCP流量【强特征】" class="headerlink" title="特征二  TCP流量【强特征】"></a>特征二  TCP流量【强特征】</h2><p>在通过客户端连接到<code>Team Server</code>的时候会产生一系列TLS数据包，其中我们需要使用<code>Wireshark</code>进行抓包解密流量查看特征。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/lib/jvm/java-11-openjdk-amd64/bin/java -javaagent:jSSLKeyLog.jar=ssss.txt -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -javaagent:CSAgent.jar=CSAgent.properties -Duser.language=en -jar cobaltstrike-client.jar</span><br><span class="line">java -javaagent:&lt;jar包的路径&gt;=&lt;sslkey的存放目录&gt; &lt;正常的jar包路径及参数&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>jSSLKeyLog</code> 是一个与 Java 应用程序中的 SSL&#x2F;TLS 加密通信相关的工具或机制，主要用于调试和分析 SSL&#x2F;TLS 连接。它的核心作用是记录 SSL&#x2F;TLS 会话的密钥材料（key material），这些密钥材料可以用于解密加密的网络流量。</p>
+<p>下载：<a target="_blank" rel="noopener" href="https://github.com/jsslkeylog/jsslkeylog/releases/download/v1.3.0/jSSLKeyLog-1.3.zip">jSSLKeyLog-1.3.zip</a></p>
+<p>java8-11运行</p>
+<p>我们需要在客户端开启抓包，同时启动<code>jSSLKeyLog.jar</code>。【<strong>此处使用的<code>Cobalt Strike</code>需要是破解版本</strong>】</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115163738664.png" alt="image-20250115163738664"></p>
+<p>Edit-&gt;Prefernces…-&gt;Protocols-&gt;TLS</p>
+<p>导入我们刚刚使用<code>jSSLKeyLog</code> 抓取到的TLS证书密钥。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115164153730.png" alt="image-20250115164153730"></p>
+<p>筛选TCP流量，选择追踪流，追踪TLS</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115164253312.png" alt="image-20250115164253312"></p>
+<p>如果抓取密码成功则是下图片，如果失败则为空。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115164341464.png" alt="image-20250115164341464"></p>
+<p>我们可以看到，我们从客户端输入的密码。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115164547179.png" alt="image-20250115164547179"></p>
+<p>当我们输入成功的密码时，原始数据显示：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115164638158.png" alt="image-20250115164638158"></p>
+<p>当我们输入错误密码时，原始数据显示：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115164732525.png" alt="image-20250115164732525"></p>
+<p>而且密码组成是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b&#x27;\x00\x00\xbe\xef\tadmin123aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>也就是我们可以通过发送，接收返回值探针是否连接成功：发送请求登录请求数据，判断数据是否是00000000或者是0000cafe。</p>
+<h1 id="0-4-总结"><a href="#0-4-总结" class="headerlink" title="0.4 总结"></a>0.4 总结</h1><p>结合上面两个思路我们可以通过构造特定的数据包去请求<code>Cobalt Strike</code>端口以及特征，需要注意的是这些请求都是有感知的，也就是说在服务端那边是有感知数据的，如下图：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115165427049.png" alt="image-20250115165427049"></p>
+<p>我们可以看到在<code>Web Log</code>以及<code>Team Server</code>存在响应。</p>
+<ol>
+<li>JARM</li>
+<li>响应头，响应体</li>
+<li>checksum8算法</li>
+<li>TCP流量</li>
+</ol>
+<p>我们可以通过上面四种方式去探针服务器是否部署了<code>Cobalt Strike</code>。</p>
+<h1 id="0-5-关于-DarKnuclei"><a href="#0-5-关于-DarKnuclei" class="headerlink" title="0.5 关于 DarKnuclei"></a>0.5 关于 DarKnuclei</h1><p>关于 DarKnuclei，DarKnuclei专注于红蓝对抗一款工具，不仅可以扫描漏洞，快速打点，还可以扫描红队基础设施与服务，如下图，探针<code>Cobalt Strike</code>端口，判断是否为部署了<code>Cobalt Strike</code>。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115174557745.png" alt="image-20250115174557745"></p>
+<p>html报告</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20250115174622901.png" alt="image-20250115174622901"></p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/15280.html">测绘语法收集资产</a></div></section></div>
+
+<div class="related-wrap" id="related-posts"></div>
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a href="/archives/">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a target="_blank" rel="noopener" href="https://github.com/RuoJi6/DarKnuclei">DarKnuclei</a><a target="_blank" rel="noopener" href="https://github.com/RuoJi6/xxl-job-FLM">xxl-job-FLM</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about/">关于我</a><a target="_blank" rel="noopener" href="https://github.com/RuoJi6">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">弱鸡</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1">Stellar 1.29.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-1-%E6%80%9D%E8%B7%AF"><span class="toc-text">0.1 思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0-2-HTTP-S-%E7%9B%91%E5%90%AC%E7%AB%AF%E5%8F%A3"><span class="toc-text">0.2 HTTP&#x2F;S 监听端口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E4%B8%80-JARM%E3%80%90%E5%BC%B1%E7%89%B9%E5%BE%81%E3%80%91"><span class="toc-text">特征一  JARM【弱特征】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E4%BA%8C-%E5%93%8D%E5%BA%94%E5%A4%B4%E3%80%90%E5%BC%B1%E7%89%B9%E5%BE%81%E3%80%91"><span class="toc-text">特征二 响应头【弱特征】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E4%B8%89-checksum8%E7%AE%97%E6%B3%95%E3%80%90%E5%BC%BA%E7%89%B9%E5%BE%81%E3%80%91"><span class="toc-text">特征三 checksum8算法【强特征】</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0-3-Team-Server-%E8%BF%9E%E6%8E%A5%E7%AB%AF%E5%8F%A3"><span class="toc-text">0.3 Team Server 连接端口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E4%B8%80-JARM%E3%80%90%E5%BC%B1%E7%89%B9%E5%BE%81%E3%80%91-1"><span class="toc-text">特征一  JARM【弱特征】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E4%BA%8C-TCP%E6%B5%81%E9%87%8F%E3%80%90%E5%BC%BA%E7%89%B9%E5%BE%81%E3%80%91"><span class="toc-text">特征二  TCP流量【强特征】</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0-4-%E6%80%BB%E7%BB%93"><span class="toc-text">0.4 总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0-5-%E5%85%B3%E4%BA%8E-DarKnuclei"><span class="toc-text">0.5 关于 DarKnuclei</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.29.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    }
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
