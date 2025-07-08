@@ -17,24 +17,46 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>about - 博客</title>
+  <title>小程序渗透实战绕过数据包加密 - 博客</title>
 
   
-    <meta name="description" content="弱鸡Admin">
-<meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="http://example.com/about/index.html">
+    <meta name="description" content="0.1 前言在进行小程序的渗透的时候发现请求包中的请求体是加密数据，本意是开发人员不想让人看到其中的数据：  防止数据被轻易窥探  防止请求被重放  增加逆向工程难度  保护敏感业务逻辑 如下图所示：    0.2 绕过0.2.1 工具下面我将用实战案例描述针对这种类型的站点我们怎么样进行绕过。 所需工具：  https:&#x2F;&#x2F;github.com&#x2F;fasnow&#x2F;fine 作用：针对小程序进行反编译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小程序渗透实战绕过数据包加密">
+<meta property="og:url" content="http://example.com/posts/40384.html">
 <meta property="og:site_name" content="博客">
-<meta property="og:description" content="弱鸡Admin">
+<meta property="og:description" content="0.1 前言在进行小程序的渗透的时候发现请求包中的请求体是加密数据，本意是开发人员不想让人看到其中的数据：  防止数据被轻易窥探  防止请求被重放  增加逆向工程难度  保护敏感业务逻辑 如下图所示：    0.2 绕过0.2.1 工具下面我将用实战案例描述针对这种类型的站点我们怎么样进行绕过。 所需工具：  https:&#x2F;&#x2F;github.com&#x2F;fasnow&#x2F;fine 作用：针对小程序进行反编译">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-12-21T11:42:28.000Z">
-<meta property="article:modified_time" content="2025-01-26T12:31:52.106Z">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708115933248.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708161016225.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708145311627.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708145726938.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708145925286.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708150255196.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708152521917.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708152626111.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708153940826.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708153620744.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708154408880.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708155254661.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708155424912.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708155657544.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708155821603.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708155914237.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708160339249.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708160308792.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708160421769.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708160640780.png">
+<meta property="article:published_time" content="2025-07-08T03:57:30.000Z">
+<meta property="article:modified_time" content="2025-07-08T08:10:18.801Z">
 <meta property="article:author" content="弱鸡">
+<meta property="article:tag" content="渗透测试">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708115933248.png">
   
   
   
-  
+  <meta name="keywords" content="渗透测试">
 
   <!-- feed -->
   
@@ -49,7 +71,7 @@
 </head>
 <body>
 
-<div class="l_body s:aa content tech" id="start" layout="page" ><aside class="l_left"><div class="leftbar-container">
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
 
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/tx.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">博客</div></a></div></header>
@@ -61,6 +83,8 @@
 <nav class="menu dis-select"></nav>
 </div>
 <div class="widgets">
+
+
 <widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/40384.html"><span class="title">小程序渗透实战绕过数据包加密</span></a><a class="item title" href="/posts/5181.html"><span class="title">水坑攻击获取SSH密钥文件密码</span></a><a class="item title" href="/posts/33805.html"><span class="title">DarKnuclei 工具使用技巧</span></a><a class="item title" href="/posts/58642.html"><span class="title">Cobalt Strike主动识别方案</span></a><a class="item title" href="/posts/15280.html"><span class="title">测绘语法收集资产</span></a><a class="item title" href="/posts/24712.html"><span class="title">关于快速打点思考</span></a><a class="item title" href="/posts/16108.html"><span class="title">Hello World</span></a></div></widget>
 </div>
 
@@ -73,23 +97,114 @@
 <div class="article banner top">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-
-  <span class="sep"></span>
-  <a class="cap breadcrumb" href="/about/index.html">about</a>
-  </div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-12-21T11:42:28.000Z">2024-12-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-01-26T12:31:52.106Z">2025-01-26</time></span></div></div></div>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-08T03:57:30.000Z">2025-07-08</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-08T08:10:18.801Z">2025-07-08</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>about</span></h1>
+        <h1 class="text title"><span>小程序渗透实战绕过数据包加密</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="弱鸡"><a href="#弱鸡" class="headerlink" title="弱鸡"></a>弱鸡</h1><p>Admin</p>
+  </div><article class="md-text content"><h1 id="0-1-前言"><a href="#0-1-前言" class="headerlink" title="0.1 前言"></a>0.1 前言</h1><p>在进行小程序的渗透的时候发现请求包中的请求体是加密数据，本意是开发人员不想让人看到其中的数据：</p>
+<ol>
+<li><p>防止数据被轻易窥探</p>
+</li>
+<li><p>防止请求被重放</p>
+</li>
+<li><p>增加逆向工程难度</p>
+</li>
+<li><p>保护敏感业务逻辑</p>
+<p>如下图所示：</p>
+</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708115933248.png" alt="image-20250708115933248"></p>
+<h1 id="0-2-绕过"><a href="#0-2-绕过" class="headerlink" title="0.2 绕过"></a>0.2 绕过</h1><h2 id="0-2-1-工具"><a href="#0-2-1-工具" class="headerlink" title="0.2.1 工具"></a>0.2.1 工具</h2><p>下面我将用实战案例描述针对这种类型的站点我们怎么样进行绕过。</p>
+<p>所需工具：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/fasnow/fine">https://github.com/fasnow/fine</a><ul>
+<li>作用：针对小程序进行反编译</li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/cloud-jie/CloudX">https://github.com/cloud-jie/CloudX</a><ul>
+<li>作用：针对加密、防重放、签名进行操作</li>
+</ul>
+</li>
+</ul>
+<h2 id="0-2-2-思路"><a href="#0-2-2-思路" class="headerlink" title="0.2.2 思路"></a>0.2.2 思路</h2><p>小程序请求体的数据是加密一般加密算法在前端的JS中，在发送请求数据包的时候，就把关键数据进行加密，其中我们也可以利用这个特性找到加密算法：</p>
+<ul>
+<li>通过强开F12断点调试小程序前端查找加密算法<ul>
+<li>优点：更加清晰准确的找到加密算法，而且定位准确</li>
+<li>缺点：微信号容易被封</li>
+</ul>
+</li>
+<li>通过反编译小程序从源码中查找加密算法<ul>
+<li>优点：微信号不容易被封，且找寻算法过程较快</li>
+<li>缺点：会定位到很多加密算法，需要挨个尝试加密算法</li>
+</ul>
+</li>
+</ul>
+<p>以上两点均可以找到关键加密算法，下面中我将使用通过反编译查找加密算法</p>
+<h1 id="0-3-方法"><a href="#0-3-方法" class="headerlink" title="0.3 方法"></a>0.3 方法</h1><h2 id="0-3-1-反编译寻找关键点"><a href="#0-3-1-反编译寻找关键点" class="headerlink" title="0.3.1 反编译寻找关键点"></a>0.3.1 反编译寻找关键点</h2><p>使用<code>fine</code>工具针对小程序进行反编译</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708161016225.png" alt="image-20250708161016225"></p>
+<p>得到源码之后，我们在进行全局搜索关键词<code>encrypt、decrypt、AES、RSA</code>。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708145311627.png" alt="image-20250708145311627"></p>
+<p>其中，我们可以通过webStorm直接搜索到关键点</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708145726938.png" alt="image-20250708145726938"></p>
+<p>由于小程序反编译之后代码比较凌乱找寻起来比较耗费时间，此时我们可以仔细观察：</p>
+<ol>
+<li>带有KEY字段的样式以及：<code>enc.Utf8.parse</code>以及<code>AES.encrypt</code>这种关键信息</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708145925286.png" alt="image-20250708145925286"></p>
+<p>这时，我们通过刚刚上面两种方式就可以找到关键点，包括加密信息：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708150255196.png" alt="image-20250708150255196"></p>
+<ol start="2">
+<li>或者使用自动化匹配脚本：<a target="_blank" rel="noopener" href="https://github.com/RuoJi6/script-demo/tree/main/python/extract_keys">https://github.com/RuoJi6/script-demo/tree/main/python/extract_keys</a></li>
+</ol>
+<p>下载脚本，修改脚本main函数中的search_directory指向指定小程序反后的目录</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708152521917.png" alt="image-20250708152521917"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708152626111.png" alt="image-20250708152626111"></p>
+<p>运行脚本，可以得到如下信息：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708153940826.png" alt="image-20250708153940826"></p>
+<p>其中，我们可以从中的得到关键的信息，通过全局搜索脚本得到的信息，我们可以找到关键的加密算法以及密钥还有偏移。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708153620744.png" alt="image-20250708153620744"></p>
+<p>也可以通过加密摘要得到信息</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708154408880.png" alt="image-20250708154408880"></p>
+<p>得到的加密代码可以直接给AI进行识别：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708155254661.png" alt="image-20250708155254661"></p>
+<h2 id="0-3-2-自动化加解密"><a href="#0-3-2-自动化加解密" class="headerlink" title="0.3.2 自动化加解密"></a>0.3.2 自动化加解密</h2><p>使用Burp Suite抓包工具，使用<code>CloudX</code>进行加解密测试</p>
+<h3 id="0-3-2-1-加载插件"><a href="#0-3-2-1-加载插件" class="headerlink" title="0.3.2.1 加载插件"></a>0.3.2.1 加载插件</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708155424912.png" alt="image-20250708155424912"></p>
+<h3 id="0-3-2-2-解密流程"><a href="#0-3-2-2-解密流程" class="headerlink" title="0.3.2.2 解密流程"></a>0.3.2.2 解密流程</h3><p>此时抓包，我们可以找到红框内为加密数据</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708155657544.png" alt="image-20250708155657544"></p>
+<p>选中数据包，发送到插件</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708155821603.png" alt="image-20250708155821603"></p>
+<p>请求参数-&gt;请求体-&gt;requestBody-&gt;加解密配置-&gt;选择我们找到的算法</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708155914237.png" alt="image-20250708155914237"></p>
+<p>我们填入对应的值，点击解密，就可以成功解密数据</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708160339249.png" alt="image-20250708160339249"></p>
+<h3 id="0-3-2-3-自动解密"><a href="#0-3-2-3-自动解密" class="headerlink" title="0.3.2.3 自动解密"></a>0.3.2.3 自动解密</h3><p>我们可以设置，爆破模型下，以及抓包，重放包模式下，自动加密解密：</p>
+<p>点击下图中的按钮，添加，就可以在抓包，重放包模式下，自动加密解密</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708160308792.png" alt="image-20250708160308792"></p>
+<p>测试是否正常：点击查看当前已配置的规则-&gt;执行-&gt;就可以看到黄色样式，表示成功</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708160421769.png" alt="image-20250708160421769"></p>
+<p>此时我们在进行抓包，就可以看到抓到的包已经是加密了的，而且不管是重发包以及爆破模式下，都是自动加解密。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250708160640780.png" alt="image-20250708160640780"></p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
 </article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/5181.html">水坑攻击获取SSH密钥文件密码</a></div></section></div>
+
+<div class="related-wrap" id="related-posts"></div>
+
 
 
 
@@ -98,7 +213,9 @@
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
 <div class="widgets">
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%B1%E9%B8%A1"><span class="toc-text">弱鸡</span></a></li></ol></div><div class="widget-footer">
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-1-%E5%89%8D%E8%A8%80"><span class="toc-text">0.1 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0-2-%E7%BB%95%E8%BF%87"><span class="toc-text">0.2 绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-2-1-%E5%B7%A5%E5%85%B7"><span class="toc-text">0.2.1 工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-2-2-%E6%80%9D%E8%B7%AF"><span class="toc-text">0.2.2 思路</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0-3-%E6%96%B9%E6%B3%95"><span class="toc-text">0.3 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-3-1-%E5%8F%8D%E7%BC%96%E8%AF%91%E5%AF%BB%E6%89%BE%E5%85%B3%E9%94%AE%E7%82%B9"><span class="toc-text">0.3.1 反编译寻找关键点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-3-2-%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8A%A0%E8%A7%A3%E5%AF%86"><span class="toc-text">0.3.2 自动化加解密</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0-3-2-1-%E5%8A%A0%E8%BD%BD%E6%8F%92%E4%BB%B6"><span class="toc-text">0.3.2.1 加载插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0-3-2-2-%E8%A7%A3%E5%AF%86%E6%B5%81%E7%A8%8B"><span class="toc-text">0.3.2.2 解密流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0-3-2-3-%E8%87%AA%E5%8A%A8%E8%A7%A3%E5%AF%86"><span class="toc-text">0.3.2.3 自动解密</span></a></li></ol></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
