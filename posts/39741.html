@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1" theme-name="Stellar" theme-version="1.29.1">
-  <meta name="robots" content="noindex,follow">
+  
   <meta name="generator" content="Hexo 7.3.0">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
   
@@ -17,22 +17,27 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>归档 - 博客</title>
+  <title>AI初识之ReAct&MCP - 博客</title>
 
   
-    <meta name="description" content="学习笔记">
-<meta property="og:type" content="website">
-<meta property="og:title" content="归档">
-<meta property="og:url" content="http://example.com/archives/2025/01/index.html">
+    <meta name="description" content="2026年年初计划通过AI辅助代码审计，次篇为agent初次尝试，使用agent+mcp进行应急响应。 0.1 MCP serverMCP服务器是模型上下文协议（MCP）架构中的关键组件。 MCP只规定了与MCP server 与MCP host（cline、claude、kiro等agent）之间的协议。  也就是mcp server相等于AI的触手，AI可以通过MCP达成各种各样的操作，如下案">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI初识之ReAct&amp;MCP">
+<meta property="og:url" content="http://example.com/posts/39741.html">
 <meta property="og:site_name" content="博客">
-<meta property="og:description" content="学习笔记">
+<meta property="og:description" content="2026年年初计划通过AI辅助代码审计，次篇为agent初次尝试，使用agent+mcp进行应急响应。 0.1 MCP serverMCP服务器是模型上下文协议（MCP）架构中的关键组件。 MCP只规定了与MCP server 与MCP host（cline、claude、kiro等agent）之间的协议。  也就是mcp server相等于AI的触手，AI可以通过MCP达成各种各样的操作，如下案">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260113152204251.png">
+<meta property="article:published_time" content="2026-01-13T07:16:22.000Z">
+<meta property="article:modified_time" content="2026-01-13T07:31:49.112Z">
 <meta property="article:author" content="弱鸡">
+<meta property="article:tag" content="AI-agent-应急响应">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260113152204251.png">
   
   
   
-  
+  <meta name="keywords" content="AI-agent-应急响应">
 
   <!-- feed -->
   
@@ -47,7 +52,7 @@
 </head>
 <body>
 
-<div class="l_body s:aa index tech" id="start" layout="undefined" ><aside class="l_left"><div class="leftbar-container">
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
 
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/tx.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">博客</div></a></div></header>
@@ -59,21 +64,83 @@
 <nav class="menu dis-select"></nav>
 </div>
 <div class="widgets">
+
+
 <widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/posts/39741.html"><span class="title">AI初识之ReAct&MCP</span></a><a class="item title" href="/posts/16615.html"><span class="title">快速获取最新0day情报</span></a><a class="item title" href="/posts/54078.html"><span class="title">代码审计之Mac使用flyEnv动态调试php</span></a><a class="item title" href="/posts/40384.html"><span class="title">小程序渗透实战绕过数据包加密</span></a><a class="item title" href="/posts/5181.html"><span class="title">水坑攻击获取SSH密钥文件密码</span></a><a class="item title" href="/posts/33805.html"><span class="title">DarKnuclei 工具使用技巧</span></a><a class="item title" href="/posts/58642.html"><span class="title">Cobalt Strike主动识别方案</span></a><a class="item title" href="/posts/15280.html"><span class="title">测绘语法收集资产</span></a><a class="item title" href="/posts/24712.html"><span class="title">关于快速打点思考</span></a><a class="item title" href="/posts/16108.html"><span class="title">Hello World</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
 
-<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/tx.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">博客</div></a></div></header>
-
- 
 
 
-<div class="navbar top"><nav class="post"><a href="/">近期发布</a><a href="/categories">分类</a><a href="/tags">标签</a><a class="active" href="/archives">归档</a></nav></div><div class="post-list archives"><article class="" id="archive"><div class='archive-header h4'>2026</div><div class="archive-list"><a class='post fs14' href="/posts/39741.html"><time>01-13</time><span>AI初识之ReAct&MCP</span></a></div><div class="archive-list"><a class='post fs14' href="/posts/16615.html"><time>01-07</time><span>快速获取最新0day情报</span></a></div></article><article class="" id="archive"><div class='archive-header h4'>2025</div><div class="archive-list"><a class='post fs14' href="/posts/54078.html"><time>07-21</time><span>代码审计之Mac使用flyEnv动态调试php</span></a></div><div class="archive-list"><a class='post fs14' href="/posts/40384.html"><time>07-08</time><span>小程序渗透实战绕过数据包加密</span></a></div><div class="archive-list"><a class='post fs14' href="/posts/5181.html"><time>03-19</time><span>水坑攻击获取SSH密钥文件密码</span></a></div><div class="archive-list"><a class='post fs14' href="/posts/33805.html"><time>01-28</time><span>DarKnuclei 工具使用技巧</span></a></div><div class="archive-list"><a class='post fs14' href="/posts/58642.html"><time>01-14</time><span>Cobalt Strike主动识别方案</span></a></div></article><article class="" id="archive"><div class='archive-header h4'>2024</div><div class="archive-list"><a class='post fs14' href="/posts/15280.html"><time>12-21</time><span>测绘语法收集资产</span></a></div><div class="archive-list"><a class='post fs14' href="/posts/24712.html"><time>12-21</time><span>关于快速打点思考</span></a></div><div class="archive-list"><a class='post fs14' href="/posts/16108.html"><time>12-21</time><span>Hello World</span></a></div></article></div>
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/AI-%E5%AD%A6%E4%B9%A0/">AI-学习</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-01-13T07:16:22.000Z">2026-01-13</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-01-13T07:31:49.112Z">2026-01-13</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>AI初识之ReAct&MCP</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><p>2026年年初计划通过AI辅助代码审计，次篇为agent初次尝试，使用agent+mcp进行应急响应。</p>
+<h1 id="0-1-MCP-server"><a href="#0-1-MCP-server" class="headerlink" title="0.1 MCP server"></a>0.1 MCP server</h1><p><strong>MCP服务器</strong>是模型上下文协议（MCP）架构中的关键组件。</p>
+<p>MCP只规定了与MCP server 与MCP host（cline、claude、kiro等agent）之间的协议。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260113152204251.png" alt="image-20260113152204251"></p>
+<p>也就是mcp server相等于AI的触手，AI可以通过MCP达成各种各样的操作，如下案例（在下文中会详细描述如何编写一个mcp）</p>
+<h2 id="0-1-2-java内存排除清理"><a href="#0-1-2-java内存排除清理" class="headerlink" title="0.1.2 java内存排除清理"></a>0.1.2 java内存排除清理</h2><p>uv地址：<a target="_blank" rel="noopener" href="https://github.com/astral-sh/uv">https://github.com/astral-sh/uv</a></p>
+<blockquote>
+<p><code>uv</code> 是一个<strong>极快的 Python 包和项目管理工具</strong>，由 Astral（Ruff 的创建者）开发，使用 Rust 编写。它旨在替代传统 Python 工具链中的多个工具（如 <code>pip</code>、<code>pip-tools</code>、<code>virtualenv</code>、<code>poetry</code> 等），提供更高效的依赖管理、环境管理和脚本执行功能。</p>
+</blockquote>
+<p>使用下面命令创建项目：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">uv init weather           # 初始化一个名为 &quot;weather&quot; 的新项目</span><br><span class="line">                          # 会创建 weather 文件夹，包含 pyproject.toml 等基础文件</span><br><span class="line"></span><br><span class="line">cd weather                # 进入项目目录</span><br><span class="line"></span><br><span class="line">uv venv                   # 创建 Python 虚拟环境</span><br><span class="line">                          # 默认在当前目录下生成 .venv 文件夹</span><br><span class="line"></span><br><span class="line">source .venv/bin/activate # 激活虚拟环境（macOS/Linux）</span><br><span class="line">                          # 激活后，pip/python 命令都指向虚拟环境</span><br><span class="line">                          # Windows 用: .venv\Scripts\activate</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>这里使用kiro（aws编程助手，使用其他编程助手也可）编写一个mcp，下面为提示词：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">网络搜索关于MCP的信息，帮我编写一个java 内存马查杀的mcp，其中你需要调用https://github.com/private-xss/memory-shell-detector 这个工具，下载地址是https://xget.xi-xu.me/gh/private-xss/memory-shell-detector/releases/download/1/java.zip </span><br><span class="line"></span><br><span class="line">1、需要编写一个ssh连接的tools，并可以执行命令</span><br><span class="line">2、需要编写一个在本地执行命令的tools</span><br><span class="line">3、需要编写一个可以使用memory-shell-detector的tools（你需要查看https://github.com/private-xss/memory-shell-detector如果使用）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意：</span><br><span class="line">1、使用uv执行项目</span><br><span class="line">2、加载source .venv/bin/activate虚拟环境秩序</span><br><span class="line">3、你可以查看当前目录下的文件，修改，main.py</span><br></pre></td></tr></table></figure>
+
+<p>提示：</p>
+<p>private-xss&#x2F;memory-shell-detector 是一个内存马检测查杀的项目</p>
+<p>MCP中可以有多个tools（功能，如：sqlmap，其中可以注入，查询，写文件等功能）</p>
+<p>此时完成之后，我们只需要配置agent的MCP，就可以使用此MCP功能。</p>
+<p>如下图：</p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/16615.html">快速获取最新0day情报</a></div></section></div>
+
+<div class="related-wrap" id="related-posts"></div>
+
+
+
+
 <footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a href="/archives/">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a target="_blank" rel="noopener" href="https://github.com/RuoJi6/DarKnuclei">DarKnuclei</a><a target="_blank" rel="noopener" href="https://github.com/RuoJi6/xxl-job-FLM">xxl-job-FLM</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about/">关于我</a><a target="_blank" rel="noopener" href="https://github.com/RuoJi6">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">弱鸡</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1">Stellar 1.29.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel blur'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-1-MCP-server"><span class="toc-text">0.1 MCP server</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1-2-java%E5%86%85%E5%AD%98%E6%8E%92%E9%99%A4%E6%B8%85%E7%90%86"><span class="toc-text">0.1.2 java内存排除清理</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
