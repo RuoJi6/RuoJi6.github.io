@@ -17,31 +17,31 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>测绘语法收集资产 - 博客</title>
+  <title>AI+MCP自动化查杀java内存马 - 博客</title>
 
   
-    <meta name="description" content="在上一篇关于【关于快速打点思考】中，写到了关于测绘收集资产，这里我们详细的展开讲讲，以FOFA举例，其它的测绘语法大同小异。 FOFA常用搜索语法123456789101112icp&#x3D;&quot;备案号&quot; # icp&#x3D;&quot;京ICP证030173号&quot;domain&#x3D;&quot;域名&quot; # icp&#x3D;&quot;baidu.com&quot;cert.subject.">
+    <meta name="description" content="在上一篇文章（链接）中，详细的描述了agent、mcp概念以及编写，此篇文章将详细的讲述MCP的使用，以及如何编写一个好的MCP。 0.1 自动化查杀java内存马GitHub项目地址：https:&#x2F;&#x2F;github.com&#x2F;RuoJi6&#x2F;memory-shell-mcp 0.1.1 编写思路这个是笔者在使用kiro编写内存马查MCP的提示词 123456789101112131415161718帮">
 <meta property="og:type" content="article">
-<meta property="og:title" content="测绘语法收集资产">
-<meta property="og:url" content="http://example.com/posts/15280.html">
+<meta property="og:title" content="AI+MCP自动化查杀java内存马">
+<meta property="og:url" content="http://example.com/posts/19293.html">
 <meta property="og:site_name" content="博客">
-<meta property="og:description" content="在上一篇关于【关于快速打点思考】中，写到了关于测绘收集资产，这里我们详细的展开讲讲，以FOFA举例，其它的测绘语法大同小异。 FOFA常用搜索语法123456789101112icp&#x3D;&quot;备案号&quot; # icp&#x3D;&quot;京ICP证030173号&quot;domain&#x3D;&quot;域名&quot; # icp&#x3D;&quot;baidu.com&quot;cert.subject.">
+<meta property="og:description" content="在上一篇文章（链接）中，详细的描述了agent、mcp概念以及编写，此篇文章将详细的讲述MCP的使用，以及如何编写一个好的MCP。 0.1 自动化查杀java内存马GitHub项目地址：https:&#x2F;&#x2F;github.com&#x2F;RuoJi6&#x2F;memory-shell-mcp 0.1.1 编写思路这个是笔者在使用kiro编写内存马查MCP的提示词 123456789101112131415161718帮">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20241222160654350.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20241221205111286.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20241222160137626.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20241222160112308.png">
-<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20241222160236254.png">
-<meta property="article:published_time" content="2024-12-21T13:55:38.000Z">
-<meta property="article:modified_time" content="2024-12-22T08:55:04.000Z">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260114104502190.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260114104300355.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260114104358274.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260114112013007.png">
+<meta property="og:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260114134822977.png">
+<meta property="article:published_time" content="2026-01-14T02:25:55.000Z">
+<meta property="article:modified_time" content="2026-01-14T05:49:11.219Z">
 <meta property="article:author" content="弱鸡">
-<meta property="article:tag" content="资产测绘">
+<meta property="article:tag" content="AI-MCP-内存马">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20241222160654350.png">
+<meta name="twitter:image" content="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260114104502190.png">
   
   
   
-  <meta name="keywords" content="资产测绘">
+  <meta name="keywords" content="AI-MCP-内存马">
 
   <!-- feed -->
   
@@ -82,45 +82,95 @@
 <div class="article banner top">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">信息收集</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-12-21T13:55:38.000Z">2024-12-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-12-22T08:55:04.000Z">2024-12-22</time></span></div></div></div>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/AI-%E5%AD%A6%E4%B9%A0/">AI-学习</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2026-01-14T02:25:55.000Z">2026-01-14</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2026-01-14T05:49:11.219Z">2026-01-14</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>测绘语法收集资产</span></h1>
+        <h1 class="text title"><span>AI+MCP自动化查杀java内存马</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><p>在上一篇关于【关于快速打点思考】中，写到了关于测绘收集资产，这里我们详细的展开讲讲，以FOFA举例，其它的测绘语法大同小异。</p>
-<h2 id="FOFA常用搜索语法"><a href="#FOFA常用搜索语法" class="headerlink" title="FOFA常用搜索语法"></a>FOFA常用搜索语法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">icp=<span class="string">&quot;备案号&quot;</span> <span class="comment"># icp=&quot;京ICP证030173号&quot;</span></span><br><span class="line">domain=<span class="string">&quot;域名&quot;</span> <span class="comment"># icp=&quot;baidu.com&quot;</span></span><br><span class="line">cert.subject.cn=<span class="string">&quot;证书持有者的通用名称&quot;</span> <span class="comment"># cert.subject.cn=&quot;baidu.com&quot;</span></span><br><span class="line">cert.subject.org=<span class="string">&quot;证书持有者的组织&quot;</span>  <span class="comment"># cert.subject.org=&quot;Beijing Baidu Netcom Science Technology Co., Ltd&quot;</span></span><br><span class="line">title=<span class="string">&quot;beijing&quot;</span>     <span class="comment"># 网页标题</span></span><br><span class="line">body=<span class="string">&quot;网络空间测绘&quot;</span>	<span class="comment"># 网页正文</span></span><br><span class="line">after=<span class="string">&quot;2024-01-01&quot;</span>	<span class="comment"># 筛选2024-01-01之后有更新的资产</span></span><br><span class="line">before=<span class="string">&quot;2024-12-01&quot;</span>	<span class="comment"># 筛选2024-12-0之前有更新的资产</span></span><br><span class="line">host=<span class="string">&quot;.fofa.com&quot;</span> <span class="comment"># 通过主机名进行查询</span></span><br><span class="line">cert=<span class="string">&quot;xxxxx&quot;</span> <span class="comment"># 证书序列号查询</span></span><br><span class="line">&amp;&amp; <span class="comment">#逻辑与</span></span><br><span class="line">|| <span class="comment">#逻辑或</span></span><br></pre></td></tr></table></figure>
+  </div><article class="md-text content"><p>在上一篇文章（<a target="_blank" rel="noopener" href="http://localhost:4000/posts/39741.html">链接</a>）中，详细的描述了agent、mcp概念以及编写，此篇文章将详细的讲述MCP的使用，以及如何编写一个好的MCP。</p>
+<h1 id="0-1-自动化查杀java内存马"><a href="#0-1-自动化查杀java内存马" class="headerlink" title="0.1 自动化查杀java内存马"></a>0.1 自动化查杀java内存马</h1><p><strong>GitHub项目地址</strong>：<a target="_blank" rel="noopener" href="https://github.com/RuoJi6/memory-shell-mcp">https://github.com/RuoJi6/memory-shell-mcp</a></p>
+<h2 id="0-1-1-编写思路"><a href="#0-1-1-编写思路" class="headerlink" title="0.1.1 编写思路"></a>0.1.1 编写思路</h2><p>这个是笔者在使用kiro编写内存马查MCP的提示词</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">帮我编写一个内存马查看/清理的MCP：</span><br><span class="line">前置：</span><br><span class="line">1、你需要在网络搜索什么是MCP</span><br><span class="line">2、了解python的uv（当前目录下，我已执行：uv venv --python python3.12 ，uv init，你后面执行命令统一在虚拟环境执行：source .venv/bin/activate，在uv init 创建的main.py文件中编写代码）</span><br><span class="line">3、查看当前目录下的`工具使用说明.md`文件</span><br><span class="line"></span><br><span class="line">结合查看`工具使用说明.md`文件完成下面需求（提示：使用FastMCP编写完成）：</span><br><span class="line">1、本地执行命令（来执行：4，5，6，7）</span><br><span class="line">2、ssh连接并可以执行命令（来执行：4，5，6，7）</span><br><span class="line">3、可以让用户输入工具目录地址，如果没有输入就使用下面地址下载到临时目录（注意windows/linux/macos等临时目录）【此处下载需要先测试网络环境是否可用，可用就可以下载。注意：windows/linux/macos 中下载的命令，尽可能的兼容系统】</span><br><span class="line">	https://xget.xi-xu.me/gh/RuoJi6/memory-shell-detector/releases/download/2/detector-agent-1.0.0-SNAPSHOT.jar</span><br><span class="line">	https://xget.xi-xu.me/gh/RuoJi6/memory-shell-detector/releases/download/2/memory-shell-detector-cli.jar</span><br><span class="line">4、结合查看`工具使用说明.md`文件可以执行工具命令（-l）</span><br><span class="line">5、结合查看`工具使用说明.md`文件可以执行工具命令（-s）</span><br><span class="line">6、结合查看`工具使用说明.md`文件可以执行工具命令（-v -p）</span><br><span class="line">7、结合查看`工具使用说明.md`文件可以执行工具命令（-r -p）</span><br><span class="line">【注意，在执行此命令删除内存马的时候，需要：1、使用-v命令获取内存马源代码，并发送给AI，惊喜判断是否是内存马，如果是方可清除 2、在执行此命令的时候，会有下面信息，需要输入y，如：[!] 警告: 移除内存马可能影响应用正常运行确认移除 org.apache.jsp.filter<span class="built_in">_</span>002dinject<span class="built_in">_</span>jsp<span class="built_in">$</span>ShellFilter? (y/N): y】</span><br><span class="line">8、运行完成之后，在当前目录输出md文件，描述功能，以及mcp配置信息</span><br></pre></td></tr></table></figure>
 
-<h2 id="SSL证书"><a href="#SSL证书" class="headerlink" title="SSL证书"></a>SSL证书</h2><p>SLL是很多人打点的时候忽略掉的一点，为什么SSL证书可以搜索到更加隐蔽的资产？因为网站运维人员在部署SLL证书的时候，对IP地址进行了部署，导致了有些网站访问会出现下面情况，因为SSL证书与域名对不上或者是过期导致，但是我们通过FOFA测绘可以通过证书搜索到绑定证书的资产。</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20241222160654350.png" alt="image-20241222160654350"></p>
-<p>SSL证书我们需要提取一下三点：</p>
+<p>其中：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/private-xss/memory-shell-detector">memory-shell-detector</a> - Java 内存马检测工具核心实现</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/xixu-me/Xget">Xget</a> - GitHub 文件加速下载服务</li>
+</ul>
+<h2 id="0-1-2-运行效果-查找内存马"><a href="#0-1-2-运行效果-查找内存马" class="headerlink" title="0.1.2 运行效果-查找内存马"></a>0.1.2 运行效果-查找内存马</h2><p>测试环境：</p>
+<ul>
+<li>servlet+tomchat<ul>
+<li>servlet</li>
+<li>filter</li>
+<li>Listeneri</li>
+</ul>
+</li>
+<li>模型：glm4.7</li>
+</ul>
+<p>MCP配置（TOOLS_DIR可以为空不设置，将会自动下载到tmp目录，参考：<a target="_blank" rel="noopener" href="https://github.com/RuoJi6/memory-shell-mcp%EF%BC%89%EF%BC%9A">https://github.com/RuoJi6/memory-shell-mcp）：</a></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;mcpServers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;memory-shell-detector&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;uvx&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;memory-shell-mcp&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;disabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;autoApprove&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>提示词：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">帮我查看本机的java web服务，并排查是否存在内存马（判断标准）：工具扫描出来之后，你需要反编译源代码，通过分析源代码，判断是否是内存马，以免在后续操作中，误删正确信息。</span><br></pre></td></tr></table></figure>
+
+
+
+<p>运行结果：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260114104502190.png" alt="image-20260114104502190"></p>
+<p>AI工具调用图：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260114104300355.png" alt="image-20260114104300355"></p>
+<p>AI思考流程图：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260114104358274.png" alt="image-20260114104358274"></p>
+<h2 id="0-1-2-运行效果-删除内存马"><a href="#0-1-2-运行效果-删除内存马" class="headerlink" title="0.1.2 运行效果-删除内存马"></a>0.1.2 运行效果-删除内存马</h2><p>测试环境：</p>
+<ul>
+<li>springboot<ul>
+<li>controller</li>
+<li>interceptor</li>
+</ul>
+</li>
+<li>模型：glm-4.7</li>
+<li>Agent：claude</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260114112013007.png" alt="image-20260114112013007"></p>
+<p>MCP配置（TOOLS_DIR可以为空不设置，将会自动下载到tmp目录，参考：<a target="_blank" rel="noopener" href="https://github.com/RuoJi6/memory-shell-mcp%EF%BC%89%EF%BC%9A">https://github.com/RuoJi6/memory-shell-mcp）：</a></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;mcpServers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;memory-shell-detector&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;uvx&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;memory-shell-mcp&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;disabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;autoApprove&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>提示词</p>
+<p>这个：（进程名包含 com.example.demo.DemoApplication） 可选，笔者只是为了让AI快速找到这个服务。</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">帮我检测本机的 Java Web 服务（进程名包含 com.example.demo.DemoApplication），排查是否存在内存马。</span><br><span class="line"></span><br><span class="line">检测要求：</span><br><span class="line">1. 先下载检测工具，然后列出 Java 进程找到目标 PID</span><br><span class="line">2. 扫描该进程，获取所有可疑类列表</span><br><span class="line">3. 对每个可疑类反编译源代码，分析是否为内存马</span><br><span class="line">4. 如果确认是内存马，执行移除操作</span><br><span class="line">5. 移除后再次扫描验证，某些内存马需要多次移除才能彻底清除</span><br><span class="line">6. 最后给我一个检测报告总结</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/image-20260114134822977.png" alt="image-20260114134822977"></p>
+<h1 id="0-2-编写思路"><a href="#0-2-编写思路" class="headerlink" title="0.2 编写思路"></a>0.2 编写思路</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">帮我编写一个内存马查看/清理的MCP：</span><br><span class="line">前置：</span><br><span class="line">1、你需要在网络搜索什么是MCP</span><br><span class="line">2、了解python的uv（当前目录下，我已执行：uv venv --python python3.12 ，uv init，你后面执行命令统一在虚拟环境执行：source .venv/bin/activate，在uv init 创建的main.py文件中编写代码）</span><br><span class="line">3、查看当前目录下的`工具使用说明.md`文件</span><br><span class="line"></span><br><span class="line">结合查看`工具使用说明.md`文件完成下面需求（提示：使用FastMCP编写完成）：</span><br><span class="line">1、本地执行命令（来执行：4，5，6，7）</span><br><span class="line">2、ssh连接并可以执行命令（来执行：4，5，6，7）</span><br><span class="line">3、可以让用户输入工具目录地址，如果没有输入就使用下面地址下载到临时目录（注意windows/linux/macos等临时目录）【此处下载需要先测试网络环境是否可用，可用就可以下载。注意：windows/linux/macos 中下载的命令，尽可能的兼容系统】</span><br><span class="line">	https://xget.xi-xu.me/gh/RuoJi6/memory-shell-detector/releases/download/2/detector-agent-1.0.0-SNAPSHOT.jar</span><br><span class="line">	https://xget.xi-xu.me/gh/RuoJi6/memory-shell-detector/releases/download/2/memory-shell-detector-cli.jar</span><br><span class="line">4、结合查看`工具使用说明.md`文件可以执行工具命令（-l）</span><br><span class="line">5、结合查看`工具使用说明.md`文件可以执行工具命令（-s）</span><br><span class="line">6、结合查看`工具使用说明.md`文件可以执行工具命令（-v -p）</span><br><span class="line">7、结合查看`工具使用说明.md`文件可以执行工具命令（-r -p）</span><br><span class="line">【注意，在执行此命令删除内存马的时候，需要：1、使用-v命令获取内存马源代码，并发送给AI，惊喜判断是否是内存马，如果是方可清除 2、在执行此命令的时候，会有下面信息，需要输入y，如：[!] 警告: 移除内存马可能影响应用正常运行确认移除 org.apache.jsp.filter_002dinject_jsp$ShellFilter? (y/N): y】</span><br><span class="line">8、运行完成之后，在当前目录输出md文件，描述功能，以及mcp配置信息</span><br></pre></td></tr></table></figure>
+
+<p>我们以上面的提示次为例，你需要明白：</p>
 <ol>
-<li>证书持有者的通用名称。</li>
-<li>证书持有者的组织。</li>
-<li>证书序列号。</li>
+<li>让AI了解最新的知识（AI的知识库并不是最新的，你需要让AI知道最新的技术）<ol>
+<li>了解最新的MCP，以及uvx使用</li>
+<li>了解项目的<code>工具使用说明.md</code>描述文件</li>
 </ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cert.subject.cn=<span class="string">&quot;baidu.com&quot;</span> <span class="comment"># 证书持有者的通用名称</span></span><br><span class="line">cert.subject.org=<span class="string">&quot;Beijing Baidu Netcom Science Technology Co., Ltd&quot;</span> <span class="comment"># 证书持有者的组织</span></span><br><span class="line">cert=<span class="string">&quot;24217219254604001662049442027&quot;</span> <span class="comment"># 证书序列号十进制【去冒号查询】</span></span><br></pre></td></tr></table></figure>
-
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20241221205111286.png" alt="image-20241221205111286"></p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20241222160137626.png" alt="image-20241222160137626"></p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20241222160112308.png" alt="image-20241222160112308"></p>
-<p><strong>结果：</strong></p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://imgesa-hexo-84jhs2.oss-cn-hongkong.aliyuncs.com/HEXO/image-20241222160236254.png" alt="image-20241222160236254"></p>
-<h2 id="编写自己的脚本"><a href="#编写自己的脚本" class="headerlink" title="编写自己的脚本"></a>编写自己的脚本</h2><p>在攻防时候，想要快人一步进行打点，在上一篇文章中【关于快速打点思考】，笔者是将测绘资产进行处理，而读者也可以自行处理，通过FOFA API接口进行操作，下面是搜索集合语句。</p>
-<p>常用语法：</p>
-<p>查询筛选2024-01-01之后有更新的资产。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">icp=<span class="string">&quot;备案号&quot;</span> || domain=<span class="string">&quot;域名&quot;</span> || cert.subject.cn=<span class="string">&quot;证书持有者的通用名称&quot;</span> || cert.subject.org=<span class="string">&quot;证书持有者的组织&quot;</span> || title=<span class="string">&quot;beijing&quot;</span> || body=<span class="string">&quot;网络空间测绘&quot;</span> || host=<span class="string">&quot;.fofa.com&quot;</span> || cert=<span class="string">&quot;xxxxx&quot;</span> &amp;&amp; after=<span class="string">&quot;2024-01-01&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>查询筛选2024-01-01之前有更新的资产</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">icp=<span class="string">&quot;备案号&quot;</span> || domain=<span class="string">&quot;域名&quot;</span> || cert.subject.cn=<span class="string">&quot;证书持有者的通用名称&quot;</span> || cert.subject.org=<span class="string">&quot;证书持有者的组织&quot;</span> || title=<span class="string">&quot;beijing&quot;</span> || body=<span class="string">&quot;网络空间测绘&quot;</span> || host=<span class="string">&quot;.fofa.com&quot;</span> || cert=<span class="string">&quot;xxxxx&quot;</span> &amp;&amp; before=<span class="string">&quot;2024-01-01&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>注意：关于测绘收录时间年限，每个测绘平台定义不一样，需要读者自行测试。</p>
+</li>
+<li>让AI了解你想做什么（让AI知道你具体想干什么？怎么样干）<ol>
+<li>本地执行命令</li>
+<li>ssh连接执行命令</li>
+<li>列出进程</li>
+<li>反编译内存马</li>
+<li>删除内存马</li>
+<li>下载工具</li>
+</ol>
+</li>
+</ol>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -130,14 +180,14 @@
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/posts/58642.html">Cobalt Strike主动识别方案</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/24712.html">关于快速打点思考</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/posts/39741.html">AI初识之ReAct&MCP</a></div></section></div>
 
 <div class="related-wrap" id="related-posts">
     <section class='header'>
       <div class='title cap theme'>您可能感兴趣的文章</div>
     </section>
     <section class='body'>
-    <div class="related-posts"><a class="item" href="/posts/24712.html" title="关于快速打点思考"><span class="title">关于快速打点思考</span></a></div></section></div>
+    <div class="related-posts"><a class="item" href="/posts/39741.html" title="AI初识之ReAct&MCP"><span class="title">AI初识之ReAct&MCP</span></a></div></section></div>
 
 
 
@@ -149,7 +199,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#FOFA%E5%B8%B8%E7%94%A8%E6%90%9C%E7%B4%A2%E8%AF%AD%E6%B3%95"><span class="toc-text">FOFA常用搜索语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSL%E8%AF%81%E4%B9%A6"><span class="toc-text">SSL证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E8%87%AA%E5%B7%B1%E7%9A%84%E8%84%9A%E6%9C%AC"><span class="toc-text">编写自己的脚本</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0-1-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9F%A5%E6%9D%80java%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-text">0.1 自动化查杀java内存马</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1-1-%E7%BC%96%E5%86%99%E6%80%9D%E8%B7%AF"><span class="toc-text">0.1.1 编写思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1-2-%E8%BF%90%E8%A1%8C%E6%95%88%E6%9E%9C-%E6%9F%A5%E6%89%BE%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-text">0.1.2 运行效果-查找内存马</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1-2-%E8%BF%90%E8%A1%8C%E6%95%88%E6%9E%9C-%E5%88%A0%E9%99%A4%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-text">0.1.2 运行效果-删除内存马</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0-2-%E7%BC%96%E5%86%99%E6%80%9D%E8%B7%AF"><span class="toc-text">0.2 编写思路</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
